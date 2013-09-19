@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,15 +17,15 @@ import org.apache.poi.ss.usermodel.Row;
 
 public class ListOfRowsToExcel {
 
-    public void generateExcel(List<Object[]> listOfRows) {
+    public void generateExcel(List<List<Object>> listOfRows) {
 
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("sheet");
         int rownum = 0;
-        for (Object[] objArr : listOfRows) {
+        for (List<Object> objList : listOfRows) {
             Row row = sheet.createRow(rownum++);
             int cellnum = 0;
-            for (Object obj : objArr) {
+            for (Object obj : objList) {
                 Cell cell = row.createCell(cellnum++);
                 if (obj instanceof Date) {
                     cell.setCellValue(obj.toString()); //use SimpleDateFormat instead
@@ -64,13 +65,13 @@ public class ListOfRowsToExcel {
 
     public static void main(String[] args) {
         Calendar cal = Calendar.getInstance();
-        List<Object[]> listOfRows = new ArrayList<Object[]>();
-        listOfRows.add(new Object[] { "Emp No.", "Name", "Salary", "DOB" });
-        listOfRows.add(new Object[] { 1d, "こんにちは世界", 1500000d, cal.getTime() });
-        listOfRows.add(new Object[] { 2d, "नमस्ते विश्व", 800000d, cal.getTime() });
-        listOfRows.add(new Object[] { 3d, "హలో వరల్డ్", 700000d, cal.getTime() });
-        listOfRows.add(new Object[] { 4d, "привет мир", 700000d, cal.getTime() });
-        listOfRows.add(new Object[] { 5d, "Hello World", 700000d, cal.getTime() });
+        List<List<Object>> listOfRows = new ArrayList<List<Object>>();
+        listOfRows.add(new ArrayList<Object>(Arrays.asList("Emp No.", "Name", "Salary", "DOB")));
+        listOfRows.add( new ArrayList<Object>(Arrays.asList(1d, "こんにちは世界", 1500000d, cal.getTime() ))) ;
+        listOfRows.add( new ArrayList<Object>(Arrays.asList(2d, "नमस्ते विश्व", 800000d, cal.getTime() ))) ;
+        listOfRows.add( new ArrayList<Object>(Arrays.asList(3d, "హలో వరల్డ్", 700000d, cal.getTime() ))) ;
+        listOfRows.add( new ArrayList<Object>(Arrays.asList(4d, "привет мир", 700000d, cal.getTime() ))) ;
+        listOfRows.add( new ArrayList<Object>(Arrays.asList(5d, "Hello World", 700000d, cal.getTime() ))) ;
         new ListOfRowsToExcel().generateExcel(listOfRows);
     }
 }
